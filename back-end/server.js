@@ -11,12 +11,12 @@ app.use(bodyParser.urlencoded({
 const mongoose = require('mongoose');
 
 // connect to the database
-mongoose.connect('mongodb://localhost:27017/pkmteam', {
+mongoose.connect('mongodb://localhost:27017/newPokeTeam', {
   useNewUrlParser: true
 });
 
 app.post('/api/items', async (req, res) => {
-  const item = new Item({
+  const item = new Team({
     title: req.body.title,
     pk1Name: req.body.pk1Name,
     pk1Pic: req.body.pk1Pic,
@@ -42,7 +42,7 @@ app.post('/api/items', async (req, res) => {
 
 app.get('/api/items', async (req, res) => {
   try {
-    let items = await Item.find();
+    let items = await Team.find();
     res.send(items);
   } catch (error) {
     console.log(error);
@@ -53,7 +53,7 @@ app.get('/api/items', async (req, res) => {
 app.put('/api/items/:id', async (req, res) => {
   try {
     
-    let item = await Item.findOne({
+    let item = await Team.findOne({
       _id: req.params.id});
     console.log(req.body);
     item.title = req.body.title;
@@ -69,7 +69,7 @@ app.put('/api/items/:id', async (req, res) => {
 
 app.delete('/api/items/:id', async (req, res) => {
   try {
-    await Item.deleteOne({
+    await Team.deleteOne({
       _id: req.params.id
     });
     res.sendStatus(200);
@@ -99,7 +99,7 @@ const itemSchema = new mongoose.Schema({
 
 
 // Create a model for items in the museum.
-const Item = mongoose.model('Item', itemSchema);
+const Team = mongoose.model('Team', itemSchema);
 
 
-app.listen(3000, () => console.log('Server listening on port 3000!'));
+app.listen(3007, () => console.log('Server listening on port 3007!'));
