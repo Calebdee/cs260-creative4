@@ -1,27 +1,39 @@
 <template>
 <div id="app">
+
   <div id="menu">
+
     <div id="brand">
+    <p v-if="user">Welcome, {{user.firstName}} {{user.lastName}} <a @click="logout"><i class="fas fa-sign-out-alt fa-lg"></i></a></p>
+
       <h1>Pokemon Team Builder</h1>
+      
+
       <router-link to="/">
-        <img src="../public/pokeball.png">
-      </router-link>
-    </div>
-    <div id="side">
-      <router-link to="/team">
-        <div class="menu-item browse">
-  
-          <p>View All Teams</p>
+        <div class="icon">
+        <i class="fas fa-home fa-lg"></i>
         </div>
       </router-link>
+      <div v-if="user">
+      <router-link to="/team" >
+        <div class="icon">
+        <i class="fas fa-user fa-lg"></i>
+        </div>
+      </router-link>
+      </div>
+
+        <router-link to="/all">
+        <div class="icon">
+          <i class="fas fa-globe fa-lg"></i>
+        </div>
+      </router-link>
+    </div>
+   
+    <div id="side">
+      
     </div>
     <div id="first">
-      <router-link to="/random">
-        <div class="menu-item">
-  
-          <p>Create Random Team</p>
-        </div>
-      </router-link>
+      
     </div>
   </div>
   <router-view />
@@ -34,10 +46,29 @@
 </template>
 
 <script>
+//src="https://kit.fontawesome.com/your-code-number.js"
+import axios from 'axios';
 export default {
   name: 'App',
-
+  computed: {
+    user() {
+        return this.$root.$data.user;
+      },
+  },
+  methods: {
+    async logout() {
+      try {
+        await axios.delete("/api/users");
+        this.$root.$data.user = null;
+        this.$router.push("/")
+      } catch (error) {
+        this.$root.$data.user = null;
+        this.$router.push("/")
+      }
+    },
+  }
 }
+
 </script>
 
 <style>
@@ -107,9 +138,6 @@ background-color: #ff0000;
   
 }
 
-#menu a {
-  color: ;
-}
 
 #brand {
   grid-area: brand;
@@ -117,10 +145,22 @@ background-color: #ff0000;
   flex-wrap: wrap;
   text-align: center;
   font-size: 15px;
+  padding: 10px;
   
   justify-content: center;
   font-family: 'Pokemon GB', sans-serif;
 
+}
+
+.icon {
+
+  padding: 10px;
+}
+
+.fas {
+  font-size: 25px;
+  color: #fff;
+  width: 50px;
 }
 
 .show {
@@ -166,7 +206,4 @@ background-color: #ff0000;
   margin: 0px;
 }
 
-.browse {
-  margin-right: 50px;
-}
 </style>
