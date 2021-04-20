@@ -1,13 +1,11 @@
 <template>
   <div class="wrapper">
     <div class="pokemon">
-      <div class="logger">
-        <h2>Trainer {{user.firstName}} {{user.lastName}}'s Teams </h2>
-      </div>
       
       <div class="product" v-for="item in items" :key="item._id">
         <div class="info">
           <h1 class="teamName">{{ item.title }}</h1>
+          <h1 v-if=item.user class="teamName">Trainer: {{ item.user.firstName }} {{item.user.lastName}}</h1>
 
           <div class="pokeLine">
             <div class="teamMember">
@@ -105,14 +103,8 @@
               </div>
               
           </div>
-
           </div>
-          <div id="entryText">
-            <input v-model="item.title" type="text" class="titleOfTeam" placeholder="Enter a new team name">
-            <button v-on:click="editTeam(item)" id="deleteButton">Edit Name</button>
           </div>
-          <button v-on:click="deleteTeam(item)" id="deleteButton">Delete Team</button>
-        </div>
       
       </div>
     </div>
@@ -122,7 +114,7 @@
 <script>
 import axios from 'axios';
 export default {
-  name: 'TeamView',
+  name: 'AllTeams',
   props: {
     items: Array
   },
@@ -140,8 +132,8 @@ export default {
    methods: {
     async getItems() {
       try {
-        console.log(this.$root.$data.user)
-        let response = await axios.get("api/teams/" + this.$root.$data.user.username);
+        
+        let response = await axios.get("api/teams");
         console.log(response)
         this.items = response.data;
         return true;

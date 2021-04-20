@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Team from '../views/Team.vue'
 import Random from '../views/Random.vue'
+import All from '../views/All.vue'
 
 Vue.use(VueRouter)
 
@@ -21,6 +22,11 @@ const routes = [
     path: '/random',
     name: 'Random',
     component: Random
+  },
+  {
+    path: '/all',
+    name: 'All',
+    component: All
   },
   {
     path: '/about',
